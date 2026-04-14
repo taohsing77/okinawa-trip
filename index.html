@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>沖繩 5 日行程</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans GB','PingFang TC',sans-serif;font-size:14px;background:#f5f4f0;color:#1a1a1a;min-height:100vh}
+.app{max-width:480px;margin:0 auto;background:#f5f4f0;min-height:100vh;padding-bottom:40px}
+.top-bar{padding:20px 16px 0}
+.trip-title{font-size:22px;font-weight:600;color:#1a1a1a}
+.trip-meta{font-size:13px;color:#888;margin-top:3px}
+.hotel-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hotel-chip{font-size:11px;padding:4px 11px;border-radius:20px;background:#fff;border:1px solid #ddd;color:#555}
+.mode-toggle{display:flex;gap:6px;padding:14px 16px 0}
+.mode-btn{flex:1;padding:9px;border-radius:10px;border:1px solid #ddd;background:#fff;color:#888;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;font-weight:500}
+.mode-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.day-strip{display:flex;gap:7px;padding:14px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.day-strip::-webkit-scrollbar{display:none}
+.day-pill{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;color:#888;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;font-weight:500}
+.day-pill.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.view{display:none;padding:0 16px}
+.view.active{display:block}
+.alert-box{background:#FEF3C7;border-radius:12px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:#92400E;line-height:1.6;border:1px solid #FDE68A}
+.map-btn-row{padding:0 16px;margin-bottom:10px}
+.map-btn{width:100%;padding:11px;border-radius:12px;border:1px solid #ddd;background:#fff;color:#1a1a1a;font-size:13px;cursor:pointer;text-align:center;display:block;text-decoration:none;font-weight:500}
+.cat-legend{display:flex;gap:10px;flex-wrap:wrap;padding:0 16px 14px}
+.leg{display:flex;align-items:center;gap:4px;font-size:11px;color:#888}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.zone-label{font-size:11px;font-weight:600;letter-spacing:.04em;color:#aaa;text-transform:uppercase;margin:16px 0 8px;padding-left:2px}
+.tl-wrap{position:relative;padding-left:34px}
+.tl-line{position:absolute;left:12px;top:10px;bottom:10px;width:1.5px;background:#e0ddd8}
+.tl-item{position:relative;margin-bottom:12px}
+.tl-badge{position:absolute;left:-34px;top:3px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.tl-card{background:#fff;border:1px solid #ece9e4;border-radius:14px;padding:11px 13px}
+.tl-time{font-size:11px;color:#aaa;margin-bottom:3px}
+.tl-name{font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.3}
+.tl-note{font-size:12px;color:#777;margin-top:5px;line-height:1.6}
+.tl-links{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.tl-link{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #e0ddd8;color:#555;text-decoration:none;background:#f9f8f6}
+.warn-badge{font-size:11px;padding:3px 9px;border-radius:6px;background:#FEF3C7;color:#92400E;display:inline-block;margin-top:5px;border:1px solid #FDE68A}
+.hours-tag{font-size:11px;padding:2px 7px;border-radius:6px;background:#F0FDF4;color:#166534;display:inline-block;margin-top:4px;border:1px solid #BBF7D0}
+.cards-grid{display:flex;flex-direction:column;gap:11px}
+.place-card{background:#fff;border:1px solid #ece9e4;border-radius:16px;overflow:hidden}
+.card-bar{height:3.5px;width:100%}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:11px 13px 0}
+.card-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;margin-top:1px}
+.card-time{font-size:11px;color:#aaa;margin-bottom:2px}
+.card-name{font-size:15px;font-weight:600;color:#1a1a1a;line-height:1.3}
+.card-note{font-size:12px;color:#777;margin:8px 13px 0;padding-top:8px;border-top:1px solid #f0ede8;line-height:1.6;padding-bottom:11px}
+.card-links{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.card-link{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #e0ddd8;color:#555;text-decoration:none;background:#f9f8f6}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top-bar">
+    <div class="trip-title">沖繩 5 日行程</div>
+    <div class="trip-meta">2026/6/16（二）– 6/20（六）・端午連假</div>
+    <div class="hotel-row">
+      <span class="hotel-chip">✈ 去程 樂桃 14:50–17:35</span>
+      <span class="hotel-chip">✈ 回程 華航 19:55–20:30</span>
+      <span class="hotel-chip">Day 1 北邊 Best Western</span>
+      <span class="hotel-chip">Day 2–4 Hotel Grand Consort</span>
+      <span class="hotel-chip">Day 1–3 有租車</span>
+    </div>
+  </div>
+
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="btn-tl" onclick="setMode('timeline')">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="2" rx="1" fill="currentColor"/><rect x="4" y="6" width="9" height="2" rx="1" fill="currentColor"/><rect x="4" y="11" width="9" height="2" rx="1" fill="currentColor"/><circle cx="1.5" cy="2" r="1.5" fill="currentColor"/><circle cx="1.5" cy="7" r="1.5" fill="currentColor"/><circle cx="1.5" cy="12" r="1.5" fill="currentColor"/></svg>
+      時程表
+    </button>
+    <button class="mode-btn" id="btn-card" onclick="setMode('cards')">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/></svg>
+      卡片
+    </button>
+  </div>
+
+  <div class="day-strip" id="day-strip"></div>
+
+  <div class="map-btn-row">
+    <a class="map-btn" href="https://maps.app.goo.gl/xBQkwJGPFXDCcRHP9" target="_blank">📍 在 Google 地圖查看所有景點 →</a>
+  </div>
+
+  <div class="cat-legend">
+    <div class="leg"><div class="leg-dot" style="background:#0F9E75"></div>景點</div>
+    <div class="leg"><div class="leg-dot" style="background:#F59E0B"></div>餐食</div>
+    <div class="leg"><div class="leg-dot" style="background:#10B981"></div>咖啡</div>
+    <div class="leg"><div class="leg-dot" style="background:#EC4899"></div>逛街</div>
+    <div class="leg"><div class="leg-dot" style="background:#3B82F6"></div>船班</div>
+    <div class="leg"><div class="leg-dot" style="background:#8B5CF6"></div>住宿</div>
+    <div class="leg"><div class="leg-dot" style="background:#EF4444"></div>航班</div>
+  </div>
+
+  <div id="tl-view" class="view active"></div>
+  <div id="card-view" class="view"></div>
+</div>
+
+<script>
+const DAYS=[
+  {label:'Day 1・6/16',tag:'有租車',items:[
+    {cat:'fly',time:'14:50',name:'樂桃 起飛 → 那覇空港',note:'17:35 抵達・連假入境人多，預留 1 小時辦理租車手續',links:[{t:'樂桃官網',u:'https://www.flypeach.com/tw'}]},
+    {cat:'spot',time:'途中',name:'萬座毛（順路）',note:'北上途中著名海蝕岬角，停車即能欣賞；日落前到景色最美，免費',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/K6WG7A5kFTBqnzGH9'}]},
+    {cat:'food',time:'20:30',name:'晚餐 ― 暖暮拉麵（名護店）',note:'名護店比市區等候時間短很多；避開市區排隊潮的好選擇',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/N7XWzjNdUkHFTrtz7'}]},
+    {cat:'hotel',time:'21:30',name:'入住 Best Western Okinawa Kouki Beach',note:'飯店樓下全家補給後休息，明天早起衝水族館',links:[{t:'官網',u:'https://www.bestwestern.com'}]},
+  ]},
+  {label:'Day 2・6/17',tag:'有租車 北→那霸',items:[
+    {zone:'北部：本部町・名護'},
+    {cat:'spot',time:'08:30',name:'沖繩美麗海水族館',note:'08:30 一開門就進去，衝黑潮之海大水槽；連假午後人潮洶湧，早去是關鍵；停留約 2.5 小時',warn:'⚠ 端午連假需提前網路購票！',hours:'08:30–18:30',links:[{t:'官網購票',u:'https://churaumi.okinawa/ticket/'},{t:'Google 地圖',u:'https://maps.app.goo.gl/vSeFeFv4x8VLwUBX8'}]},
+    {cat:'spot',time:'11:30',name:'備瀬福木林道（水族館旁）',note:'完全免費・安靜不塞人，可租腳踏車漫遊；水族館出來直接走過去',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/3SuzApzPzKZrM8wH9'}]},
+    {cat:'food',time:'11:30',name:'午餐 ― Sandbox Burgers（宜野座店）',note:'在名護與宜野灣中間，北部人氣漢堡；比市區人潮少很多',hours:'11:00–18:00',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/cY1UuQ6Tur7ggHaS9'}]},
+    {zone:'南下途中：恩納村'},
+    {cat:'cafe',time:'13:15',name:'Ryukyu Beach Club（恩納村）',note:'海邊放鬆喝一杯，享受度假感；南下路上最適合中場休息',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/vQhCJz5fqh1nxLVB8'}]},
+    {zone:'南下途中：豐見城'},
+    {cat:'shop',time:'17:30',name:'ASHIBINAA Outlet（豐見城）',note:'水族館南下回那霸路上直接順路！開車最方便；逛約 1.5 小時',hours:'10:00–20:00',links:[{t:'官網',u:'https://www.ashibinaa.com'},{t:'Google 地圖',u:'https://maps.app.goo.gl/RzTz3DpKWN72HKoM8'}]},
+    {zone:'那霸'},
+    {cat:'hotel',time:'19:00',name:'入住 Hotel Grand Consort Naha',note:'Day 2–4 那霸基地',links:[{t:'官網',u:'https://www.hotelgrandconsort.com'}]},
+    {cat:'food',time:'20:00',name:'晚餐 ― Lucky Maximum 居酒屋',note:'氣氛好的人氣居酒屋，連假強烈建議提前訂位',hours:'營業至深夜',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/pRSb4GW9K3qzwVNP9'}]},
+  ]},
+  {label:'Day 3・6/18',tag:'有租車（最後一天）',items:[
+    {zone:'浦添市：港川外人住宅'},
+    {cat:'cafe',time:'10:00',name:'.uki（浦添・港川外人住宅）',note:'沖繩氣質咖啡空間；外人住宅最佳起點，早上人少',hours:'開門時間請確認官網',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/SFbMAs8hQVKML7Bo9'}]},
+    {cat:'shop',time:'10:30',name:'港川外人住宅 逛店',note:'gnoti（編織選物）・kozorasou（小空莊雜貨）・SANSE coffee&wine・Vietnam Marley・Narrative Outdoor Supply；多數 11:00–11:30 才開',links:[{t:'外人住宅地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
+    {cat:'food',time:'11:45',name:'午餐 ― 時は鍵なり（歐姆蛋包飯）',note:'港川外人住宅内・限定午餐・極受歡迎・要早點排！售完即止',warn:'⚠ 11:00 開・售完為止！先去排隊再逛店',hours:'11:00–15:00（售完為止）',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/mH7BqnEAtpHwZ4ZD8'}]},
+    {zone:'宜野灣市'},
+    {cat:'shop',time:'14:00',name:'Parco City（宜野灣）',note:'敘敘苑商業午餐就在這，但已吃蛋包飯；可改逛 Parco 内日系服飾品牌，或在美食街吃輕食',hours:'10:00–22:00',links:[{t:'官網',u:'https://www.parco.co.jp/okinawa/'},{t:'Google 地圖',u:'https://maps.app.goo.gl/Fx9TjNww8LoTJzXt9'}]},
+    {cat:'cafe',time:'15:30',name:'Yamada Coffee → Common 烘焙屋',note:'宜野灣・手沖咖啡權威 Yamada Coffee，接著去 Common 烘焙屋買職人麵包；兩間相鄰逛完剛好',links:[{t:'Yamada Coffee 地圖',u:'https://maps.app.goo.gl/n9sDN8YD7zBs6uBt5'}]},
+    {cat:'shop',time:'16:30',name:'Prime Narrative Outdoor Supply（宜野灣）',note:'戶外風格選物，這區逛完最後一站',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
+    {zone:'北谷・中城（租車最後大採買）'},
+    {cat:'shop',time:'17:30',name:'D&Department 沖繩 by Plaza 3（沖繩市）',note:'注意：D&D 在沖繩市 Plaza House，不在 Aeon Mall 旁！從宜野灣開車約 20–25 分。若時間不夠可跳過',hours:'10:30–18:00・週二 16:00 關',links:[{t:'官方網站',u:'https://www.d-department.com/ext/shop/okinawa.html'},{t:'Google 地圖',u:'https://maps.app.goo.gl/jBqNw9zCa9UwFaXL9'}]},
+    {cat:'shop',time:'19:00',name:'AEON Mall Okinawa Rycom（中城）',note:'最後自駕採買大站；那霸以北最大購物商場，日系服飾・藥妝・食品一次搞定',hours:'10:00–22:00',links:[{t:'官網',u:'https://okinawarycom-aeonmall.com'},{t:'Google 地圖',u:'https://maps.app.goo.gl/sXpHzFDJDBvhEbWR9'}]},
+    {cat:'hotel',time:'21:00',name:'還車 → 返回那霸飯店',note:'租車最後一天，確認還車時間與地點，搭接駁回那霸市區'},
+  ]},
+  {label:'Day 4・6/19',tag:'無車・座間味島',items:[
+    {zone:'那霸 → 座間味島'},
+    {cat:'ferry',time:'08:00',name:'前往泊港（とまりん）',note:'搭計程車或單軌至美栄橋站步行 15 分；先到とまりん取已預訂票券，排隊取票需時間',warn:'⚠ 端午連假絕對要提前訂！網路最早 55 天前開放',links:[{t:'官方訂票',u:'https://yoyaku.vill.zamami.okinawa.jp'},{t:'泊港地圖',u:'https://maps.app.goo.gl/AU4NVmw1WifstcGKA'}]},
+    {cat:'ferry',time:'09:00',name:'クイーンざまみ 高速船出發',note:'泊港北岸出發・約 50 分抵達座間味・片道 ¥3,200・自備酔い止め（暈船藥）',links:[{t:'座間味時刻表',u:'https://www.vill.zamami.okinawa.jp/ship/'}]},
+    {zone:'座間味島'},
+    {cat:'spot',time:'09:50',name:'座間味島 自由行',note:'古座間味海灘浮潛（全球百大美海灘）・阿真海灘・島內租腳踏車或電動車 ¥1,500~/半日・午餐在島上食堂（現金為主）',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/W2nMhj4VcJ3EkjTM6'}]},
+    {cat:'ferry',time:'16:20',name:'クイーンざまみ 回程',note:'16:10 前務必到乘船處（北岸，與とまりん距離步行 10 分）・17:10 抵泊港'},
+    {zone:'那霸：牧志・國際通'},
+    {cat:'food',time:'18:00',name:'晚餐 ― Eibun 沖繩麵（本店）',note:'回到那霸的第一餐！創意吃法多，連假要衝衝看',hours:'11:00–16:00 / 17:30–20:00',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/cY1UuQ6Tur7ggHaS9'}]},
+    {cat:'shop',time:'20:00',name:'國際通散策 ― DonDonDonki',note:'國際通夜間購物・Donki 深夜還開・最後補買藥妝零食',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/DT4sQrXnNVXh6ynj7'}]},
+  ]},
+  {label:'Day 5・6/20',tag:'無車・回程',items:[
+    {zone:'那霸：波上宮・首里'},
+    {cat:'spot',time:'09:00',name:'波上宮',note:'那霸西側海邊的琉球八社之首・免費參拜・黃昏景色美但早上人少更好',hours:'自由參拜',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/o2aDdXB9TwWMnP1p9'}]},
+    {cat:'spot',time:'10:30',name:'達摩神社・西來院（首里）',note:'首里駅徒步 5 分・滿坑達摩，氣氛清靜；祈求旅程計畫順遂！',warn:'18:00 關門，務必在白天前往',hours:'07:00–18:00・免費',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/jx3wgKi5S1DLECQR7'}]},
+    {zone:'那霸：壺屋・牧志商圈'},
+    {cat:'food',time:'11:30',name:'午餐 ― 福助玉子燒 或 Pork Tamago 飯糰',note:'壺屋通り附近・那霸名物・早午餐輕食剛好',links:[{t:'福助地圖',u:'https://maps.app.goo.gl/ey87eaKDT2hxSYwY7'},{t:'Pork Tamago 地圖',u:'https://maps.app.goo.gl/REUqGCBimBdUWPq39'}]},
+    {cat:'cafe',time:'12:00',name:'Rokkan Coffee（壺屋附近・首里區域）',note:'沈穩氣氛的咖啡空間，壺屋逛完後完美中場休息',hours:'請確認官網',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/xvU9G3TzJRQ8mNkdA'}]},
+    {cat:'shop',time:'12:30',name:'壺屋やちむん通り 陶器選物',note:'yachi & moon・tituti okinawa・utsuuwa chartaro・Akoh Kloh・castelo；石板路散步約 1–2 小時',hours:'多數店家 10:00–18:00',links:[{t:'壺屋通り地圖',u:'https://maps.app.goo.gl/b6kRJgLoGymz8HLp7'}]},
+    {cat:'shop',time:'14:00',name:'山城用品',note:'就在壺屋・牧志商圈附近，順路必逛；米軍放出品與戶外雜貨，沖繩限定挖寶感',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/itjTNvvHx4nkNseA8'}]},
+    {zone:'那霸空港'},
+    {cat:'fly',time:'17:30',name:'前往那霸空港',note:'搭單軌約 25 分・建議 17:30 前出發，留足夠時間安檢'},
+    {cat:'fly',time:'19:55',name:'華航起飛 → 桃園',note:'20:30 抵達・飛行約 35 分・平安回家！',links:[{t:'華航官網',u:'https://www.china-airlines.com'}]},
+  ]}
+];
+
+const CAT_COLOR={
+  spot:{bg:'#DCFCE7',color:'#166534',bar:'#0F9E75'},
+  food:{bg:'#FEF3C7',color:'#92400E',bar:'#F59E0B'},
+  cafe:{bg:'#D1FAE5',color:'#065F46',bar:'#10B981'},
+  shop:{bg:'#FCE7F3',color:'#9D174D',bar:'#EC4899'},
+  ferry:{bg:'#DBEAFE',color:'#1E3A8A',bar:'#3B82F6'},
+  hotel:{bg:'#EDE9FE',color:'#4C1D95',bar:'#8B5CF6'},
+  fly:{bg:'#FEE2E2',color:'#7F1D1D',bar:'#EF4444'},
+};
+const CAT_LABEL={spot:'景點',food:'餐食',cafe:'咖啡',shop:'逛街',ferry:'船班',hotel:'住宿',fly:'航班'};
+
+let curDay=0,curMode='timeline';
+
+function setMode(m){
+  curMode=m;
+  document.getElementById('btn-tl').classList.toggle('active',m==='timeline');
+  document.getElementById('btn-card').classList.toggle('active',m==='cards');
+  document.getElementById('tl-view').classList.toggle('active',m==='timeline');
+  document.getElementById('card-view').classList.toggle('active',m==='cards');
+  renderDay(curDay);
+}
+function setDay(i){
+  curDay=i;
+  document.querySelectorAll('.day-pill').forEach((p,j)=>p.classList.toggle('active',j===i));
+  renderDay(i);
+}
+
+function renderDay(i){
+  const day=DAYS[i];
+  if(curMode==='timeline'){
+    let warns=day.items.filter(it=>it.warn&&it.name).map(it=>`<div class="alert-box">📌 ${it.name}：${it.warn}</div>`).join('');
+
+    // group items by zone
+    let groups=[];
+    let cur=null;
+    day.items.forEach(it=>{
+      if(it.zone!==undefined){cur={zone:it.zone,items:[]};groups.push(cur);}
+      else{if(!cur){cur={zone:null,items:[]};groups.push(cur);}cur.items.push(it);}
+    });
+
+    let num=0;
+    let html=groups.map(g=>{
+      let zoneHtml=g.zone?`<div class="zone-label">${g.zone}</div>`:'';
+      let itemsHtml=g.items.map(it=>{
+        num++;
+        const c=CAT_COLOR[it.cat]||CAT_COLOR.spot;
+        let linksHtml=it.links?'<div class="tl-links">'+it.links.map(l=>`<a class="tl-link" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('')+'</div>':'';
+        return `<div class="tl-item">
+          <div class="tl-badge" style="background:${c.bg};color:${c.color}">${num}</div>
+          <div class="tl-card">
+            <div class="tl-time">${it.time} · ${CAT_LABEL[it.cat]}</div>
+            <div class="tl-name">${it.name}</div>
+            ${it.note?`<div class="tl-note">${it.note}</div>`:''}
+            ${it.hours?`<span class="hours-tag">⏰ ${it.hours}</span>`:''}
+            ${it.warn?`<span class="warn-badge">${it.warn}</span>`:''}
+            ${linksHtml}
+          </div>
+        </div>`;
+      }).join('');
+      return `${zoneHtml}<div class="tl-wrap"><div class="tl-line"></div>${itemsHtml}</div>`;
+    }).join('');
+
+    document.getElementById('tl-view').innerHTML=warns+html;
+  } else {
+    let cards=day.items.filter(it=>!it.zone).map((it,idx)=>{
+      const c=CAT_COLOR[it.cat]||CAT_COLOR.spot;
+      let linksHtml=it.links?'<div class="card-links">'+it.links.map(l=>`<a class="card-link" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('')+'</div>':'';
+      return `<div class="place-card">
+        <div class="card-bar" style="background:${c.bar}"></div>
+        <div class="card-header">
+          <div class="card-num" style="background:${c.bg};color:${c.color}">${idx+1}</div>
+          <div style="flex:1">
+            <div class="card-time">${it.time} · ${CAT_LABEL[it.cat]}</div>
+            <div class="card-name">${it.name}</div>
+          </div>
+        </div>
+        <div class="card-note">
+          ${it.note||''}
+          ${it.hours?`<br><span class="hours-tag" style="margin-top:5px">⏰ ${it.hours}</span>`:''}
+          ${it.warn?`<br><span class="warn-badge" style="margin-top:5px">${it.warn}</span>`:''}
+          ${linksHtml}
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('card-view').innerHTML=`<div class="cards-grid">${cards}</div>`;
+  }
+}
+
+function init(){
+  const strip=document.getElementById('day-strip');
+  strip.innerHTML=DAYS.map((d,i)=>`<button class="day-pill${i===0?' active':''}" onclick="setDay(${i})">${d.label}</button>`).join('');
+  renderDay(0);
+}
+init();
+</script>
+</body>
+</html>
