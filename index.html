@@ -7,28 +7,49 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans GB','PingFang TC',sans-serif;font-size:14px;background:#f5f4f0;color:#1a1a1a;min-height:100vh}
-.app{max-width:480px;margin:0 auto;background:#f5f4f0;min-height:100vh;padding-bottom:40px}
-.top-bar{padding:20px 16px 0}
-.trip-title{font-size:22px;font-weight:600;color:#1a1a1a}
-.trip-meta{font-size:13px;color:#888;margin-top:3px}
-.hotel-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.hotel-chip{font-size:11px;padding:4px 11px;border-radius:20px;background:#fff;border:1px solid #ddd;color:#555}
-.mode-toggle{display:flex;gap:6px;padding:14px 16px 0}
-.mode-btn{flex:1;padding:9px;border-radius:10px;border:1px solid #ddd;background:#fff;color:#888;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;font-weight:500}
+.app{max-width:480px;margin:0 auto;background:#f5f4f0;min-height:100vh;padding-bottom:60px}
+
+/* ── 頂部資訊收合 ── */
+.info-panel{margin:16px 16px 0;background:#fff;border-radius:16px;border:1px solid #ece9e4;overflow:hidden}
+.info-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:#1a1a1a;font-family:inherit}
+.info-toggle .arrow{font-size:11px;color:#aaa;transition:transform .2s}
+.info-toggle.open .arrow{transform:rotate(180deg)}
+.info-body{display:none;padding:0 15px 14px;border-top:1px solid #f0ede8}
+.info-body.open{display:block}
+.info-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.info-chip{font-size:11px;padding:4px 11px;border-radius:20px;background:#f5f4f0;border:1px solid #e0ddd8;color:#555;white-space:nowrap}
+.info-chip.warn{background:#FEF3C7;border-color:#FDE68A;color:#92400E}
+.info-section{margin-top:12px}
+.info-section-title{font-size:11px;font-weight:600;color:#aaa;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+
+/* ── 模式切換 ── */
+.mode-toggle{display:flex;gap:6px;padding:12px 16px 0}
+.mode-btn{flex:1;padding:9px;border-radius:10px;border:1px solid #ddd;background:#fff;color:#888;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;font-weight:500;font-family:inherit}
 .mode-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.day-strip{display:flex;gap:7px;padding:14px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+
+/* ── Day Tabs ── */
+.day-strip{display:flex;gap:7px;padding:12px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .day-strip::-webkit-scrollbar{display:none}
-.day-pill{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;color:#888;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;font-weight:500}
+.day-pill{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;color:#888;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;font-weight:500;font-family:inherit}
 .day-pill.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.view{display:none;padding:0 16px}
-.view.active{display:block}
-.alert-box{background:#FEF3C7;border-radius:12px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:#92400E;line-height:1.6;border:1px solid #FDE68A}
+
+/* ── 地圖按鈕 ── */
 .map-btn-row{padding:0 16px;margin-bottom:10px}
-.map-btn{width:100%;padding:11px;border-radius:12px;border:1px solid #ddd;background:#fff;color:#1a1a1a;font-size:13px;cursor:pointer;text-align:center;display:block;text-decoration:none;font-weight:500}
-.cat-legend{display:flex;gap:10px;flex-wrap:wrap;padding:0 16px 14px}
+.map-btn{width:100%;padding:11px;border-radius:12px;border:1px solid #ddd;background:#fff;color:#1a1a1a;font-size:13px;text-align:center;display:block;text-decoration:none;font-weight:500}
+
+/* ── 圖例 ── */
+.cat-legend{display:flex;gap:10px;flex-wrap:wrap;padding:0 16px 12px}
 .leg{display:flex;align-items:center;gap:4px;font-size:11px;color:#888}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.zone-label{font-size:11px;font-weight:600;letter-spacing:.04em;color:#aaa;text-transform:uppercase;margin:16px 0 8px;padding-left:2px}
+
+/* ── View ── */
+.view{display:none;padding:0 16px}
+.view.active{display:block}
+
+/* ── Zone Label ── */
+.zone-label{font-size:11px;font-weight:600;letter-spacing:.04em;color:#aaa;text-transform:uppercase;margin:16px 0 8px 2px}
+
+/* ── Timeline ── */
 .tl-wrap{position:relative;padding-left:34px}
 .tl-line{position:absolute;left:12px;top:10px;bottom:10px;width:1.5px;background:#e0ddd8}
 .tl-item{position:relative;margin-bottom:12px}
@@ -39,8 +60,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans GB','PingFang T
 .tl-note{font-size:12px;color:#777;margin-top:5px;line-height:1.6}
 .tl-links{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
 .tl-link{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #e0ddd8;color:#555;text-decoration:none;background:#f9f8f6}
-.warn-badge{font-size:11px;padding:3px 9px;border-radius:6px;background:#FEF3C7;color:#92400E;display:inline-block;margin-top:5px;border:1px solid #FDE68A}
+.warn-badge{font-size:12px;padding:6px 10px;border-radius:8px;background:#FEF3C7;color:#92400E;display:block;margin-top:7px;border:1px solid #FDE68A;line-height:1.5}
 .hours-tag{font-size:11px;padding:2px 7px;border-radius:6px;background:#F0FDF4;color:#166534;display:inline-block;margin-top:4px;border:1px solid #BBF7D0}
+
+/* ── 二選一虛線框 ── */
+.either-or{border:1.5px dashed #c0bdb8;border-radius:14px;padding:10px 12px;margin-top:8px}
+.either-or-label{font-size:10px;font-weight:700;color:#aaa;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.either-option{background:#f9f8f6;border-radius:10px;padding:8px 11px;margin-bottom:6px}
+.either-option:last-child{margin-bottom:0}
+.either-option-name{font-size:13px;font-weight:600;color:#1a1a1a}
+.either-option-note{font-size:12px;color:#777;margin-top:3px;line-height:1.5}
+
+/* ── 交通表格 ── */
+.transport-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
+.transport-table th{background:#f5f4f0;color:#888;font-weight:600;padding:6px 9px;text-align:left;border-bottom:1px solid #e0ddd8}
+.transport-table td{padding:7px 9px;border-bottom:1px solid #f0ede8;color:#444;vertical-align:top}
+.transport-table tr:last-child td{border-bottom:none}
+
+/* ── 卡片模式 ── */
 .cards-grid{display:flex;flex-direction:column;gap:11px}
 .place-card{background:#fff;border:1px solid #ece9e4;border-radius:16px;overflow:hidden}
 .card-bar{height:3.5px;width:100%}
@@ -51,22 +88,65 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans GB','PingFang T
 .card-note{font-size:12px;color:#777;margin:8px 13px 0;padding-top:8px;border-top:1px solid #f0ede8;line-height:1.6;padding-bottom:11px}
 .card-links{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .card-link{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #e0ddd8;color:#555;text-decoration:none;background:#f9f8f6}
+
+/* ── 行前提醒 ── */
+.checklist-section{margin:20px 16px 0;background:#fff;border-radius:16px;border:1px solid #ece9e4;overflow:hidden}
+.checklist-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:#1a1a1a;font-family:inherit}
+.checklist-toggle .arrow{font-size:11px;color:#aaa;transition:transform .2s}
+.checklist-toggle.open .arrow{transform:rotate(180deg)}
+.checklist-body{display:none;padding:0 15px 14px;border-top:1px solid #f0ede8}
+.checklist-body.open{display:block}
+.check-group{margin-top:12px}
+.check-group-title{font-size:11px;font-weight:700;color:#aaa;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #f5f4f0;font-size:13px;color:#444;line-height:1.5}
+.check-item:last-child{border-bottom:none}
+.check-item .dot{width:6px;height:6px;border-radius:50%;background:#c0bdb8;flex-shrink:0;margin-top:6px}
+.check-item.urgent .dot{background:#F59E0B}
+.check-item.urgent{color:#92400E}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="top-bar">
-    <div class="trip-title">沖繩 5 日行程</div>
-    <div class="trip-meta">2026/6/16（二）– 6/20（六）・端午連假</div>
-    <div class="hotel-row">
-      <span class="hotel-chip">✈ 去程 樂桃 14:50–17:35</span>
-      <span class="hotel-chip">✈ 回程 華航 19:55–20:30</span>
-      <span class="hotel-chip">Day 1 北邊 Best Western</span>
-      <span class="hotel-chip">Day 2–4 Hotel Grand Consort</span>
-      <span class="hotel-chip">Day 1–3 有租車</span>
+<div class="app" id="top">
+
+  <!-- 頂部收合資訊 -->
+  <div class="info-panel">
+    <button class="info-toggle" id="info-btn" onclick="toggleInfo()">
+      ✈ 交通 & 住宿資訊
+      <span class="arrow">▼</span>
+    </button>
+    <div class="info-body" id="info-body">
+      <div class="info-section">
+        <div class="info-section-title">航班</div>
+        <div class="info-row">
+          <span class="info-chip">🛫 去程 樂桃 14:50–17:35</span>
+          <span class="info-chip">🛬 回程 華航 19:55–20:30</span>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-title">住宿</div>
+        <div class="info-row">
+          <span class="info-chip">Day 1 Best Western Kouki Beach（北部）</span>
+          <span class="info-chip">Day 2–4 Hotel Grand Consort（那霸）</span>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-title">交通</div>
+        <div class="info-row">
+          <span class="info-chip">🚗 Day 1–3 租車</span>
+          <span class="info-chip">🚶 Day 4–5 無車・單軌／步行</span>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-title">先訂票 ⚠</div>
+        <div class="info-row">
+          <span class="info-chip warn">🎫 美麗海水族館門票</span>
+          <span class="info-chip warn">⛴ 座間味島來回船票</span>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- 模式切換 -->
   <div class="mode-toggle">
     <button class="mode-btn active" id="btn-tl" onclick="setMode('timeline')">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="2" rx="1" fill="currentColor"/><rect x="4" y="6" width="9" height="2" rx="1" fill="currentColor"/><rect x="4" y="11" width="9" height="2" rx="1" fill="currentColor"/><circle cx="1.5" cy="2" r="1.5" fill="currentColor"/><circle cx="1.5" cy="7" r="1.5" fill="currentColor"/><circle cx="1.5" cy="12" r="1.5" fill="currentColor"/></svg>
@@ -78,12 +158,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans GB','PingFang T
     </button>
   </div>
 
+  <!-- Day Tabs -->
   <div class="day-strip" id="day-strip"></div>
 
+  <!-- 地圖 -->
   <div class="map-btn-row">
-    <a class="map-btn" href="https://maps.app.goo.gl/xBQkwJGPFXDCcRHP9" target="_blank">📍 在 Google 地圖查看所有景點 →</a>
+    <a class="map-btn" href="https://maps.app.goo.gl/xBQkwJGPFXDCcRHP9" target="_blank">📍 Google 地圖：所有景點 →</a>
   </div>
 
+  <!-- 圖例 -->
   <div class="cat-legend">
     <div class="leg"><div class="leg-dot" style="background:#0F9E75"></div>景點</div>
     <div class="leg"><div class="leg-dot" style="background:#F59E0B"></div>餐食</div>
@@ -96,69 +179,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans GB','PingFang T
 
   <div id="tl-view" class="view active"></div>
   <div id="card-view" class="view"></div>
-</div>
+
+  <!-- 行前提醒 -->
+  <div class="checklist-section">
+    <button class="checklist-toggle" id="check-btn" onclick="toggleChecklist()">
+      📋 行前提醒
+      <span class="arrow">▼</span>
+    </button>
+    <div class="checklist-body" id="check-body">
+      <div class="check-group">
+        <div class="check-group-title">🔴 必須提前預訂</div>
+        <div class="check-item urgent"><div class="dot"></div>美麗海水族館門票（網路購票有折扣，連假現場等很久）</div>
+        <div class="check-item urgent"><div class="dot"></div>座間味島來回船票 ─ クイーンざまみ（最早 55 天前官網開放，端午連假必搶）</div>
+        <div class="check-item urgent"><div class="dot"></div>Lucky Maximum 居酒屋訂位（熱門，連假建議提前打電話）</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">🎒 座間味島攜帶清單</div>
+        <div class="check-item"><div class="dot"></div>野餐墊</div>
+        <div class="check-item"><div class="dot"></div>玩水防水袋</div>
+        <div class="check-item"><div class="dot"></div>浴巾 / 毛巾</div>
+        <div class="check-item"><div class="dot"></div>簡單換洗衣物</div>
+        <div class="check-item"><div class="dot"></div>防曬乘量帶</div>
+        <div class="check-item"><div class="dot"></div>暈船藥（酔い止め）</div>
+        <div class="check-item"><div class="dot"></div>現金（島上多為現金）</div>
+      </div>
+      <div class="check-group">
+        <div class="check-group-title">📌 確認事項</div>
+        <div class="check-item"><div class="dot"></div>確認座間味島所有公車票與發車時刻表</div>
+        <div class="check-item"><div class="dot"></div>確認租車取還時間與接駁地點</div>
+        <div class="check-item"><div class="dot"></div>Day 3 還車前確認 ASHIBINAA Outlet 停車場</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .app -->
 
 <script>
-const DAYS=[
-  {label:'Day 1・6/16',tag:'有租車',items:[
-    {cat:'fly',time:'14:50',name:'樂桃 起飛 → 那覇空港',note:'17:35 抵達・連假入境人多，預留 1 小時辦理租車手續',links:[{t:'樂桃官網',u:'https://www.flypeach.com/tw'}]},
-    {cat:'spot',time:'途中',name:'萬座毛（順路）',note:'北上途中著名海蝕岬角，停車即能欣賞；日落前到景色最美，免費',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/K6WG7A5kFTBqnzGH9'}]},
-    {cat:'food',time:'20:30',name:'晚餐 ― 暖暮拉麵（名護店）',note:'名護店比市區等候時間短很多；避開市區排隊潮的好選擇',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/N7XWzjNdUkHFTrtz7'}]},
-    {cat:'hotel',time:'21:30',name:'入住 Best Western Okinawa Kouki Beach',note:'飯店樓下全家補給後休息，明天早起衝水族館',links:[{t:'官網',u:'https://www.bestwestern.com'}]},
-  ]},
-  {label:'Day 2・6/17',tag:'有租車 北→那霸',items:[
-    {zone:'北部：本部町・名護'},
-    {cat:'spot',time:'08:30',name:'沖繩美麗海水族館',note:'08:30 一開門就進去，衝黑潮之海大水槽；連假午後人潮洶湧，早去是關鍵；停留約 2.5 小時',warn:'⚠ 端午連假需提前網路購票！',hours:'08:30–18:30',links:[{t:'官網購票',u:'https://churaumi.okinawa/ticket/'},{t:'Google 地圖',u:'https://maps.app.goo.gl/vSeFeFv4x8VLwUBX8'}]},
-    {cat:'spot',time:'11:30',name:'備瀬福木林道（水族館旁）',note:'完全免費・安靜不塞人，可租腳踏車漫遊；水族館出來直接走過去',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/3SuzApzPzKZrM8wH9'}]},
-    {cat:'food',time:'11:30',name:'午餐 ― Sandbox Burgers（宜野座店）',note:'在名護與宜野灣中間，北部人氣漢堡；比市區人潮少很多',hours:'11:00–18:00',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/cY1UuQ6Tur7ggHaS9'}]},
-    {zone:'南下途中：恩納村'},
-    {cat:'cafe',time:'13:15',name:'Ryukyu Beach Club（恩納村）',note:'海邊放鬆喝一杯，享受度假感；南下路上最適合中場休息',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/vQhCJz5fqh1nxLVB8'}]},
-    {zone:'南下途中：豐見城'},
-    {cat:'shop',time:'17:30',name:'ASHIBINAA Outlet（豐見城）',note:'水族館南下回那霸路上直接順路！開車最方便；逛約 1.5 小時',hours:'10:00–20:00',links:[{t:'官網',u:'https://www.ashibinaa.com'},{t:'Google 地圖',u:'https://maps.app.goo.gl/RzTz3DpKWN72HKoM8'}]},
-    {zone:'那霸'},
-    {cat:'hotel',time:'19:00',name:'入住 Hotel Grand Consort Naha',note:'Day 2–4 那霸基地',links:[{t:'官網',u:'https://www.hotelgrandconsort.com'}]},
-    {cat:'food',time:'20:00',name:'晚餐 ― Lucky Maximum 居酒屋',note:'氣氛好的人氣居酒屋，連假強烈建議提前訂位',hours:'營業至深夜',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/pRSb4GW9K3qzwVNP9'}]},
-  ]},
-  {label:'Day 3・6/18',tag:'有租車（最後一天）',items:[
-    {zone:'浦添市：港川外人住宅'},
-    {cat:'cafe',time:'10:00',name:'.uki（浦添・港川外人住宅）',note:'沖繩氣質咖啡空間；外人住宅最佳起點，早上人少',hours:'開門時間請確認官網',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/SFbMAs8hQVKML7Bo9'}]},
-    {cat:'shop',time:'10:30',name:'港川外人住宅 逛店',note:'gnoti（編織選物）・kozorasou（小空莊雜貨）・SANSE coffee&wine・Vietnam Marley・Narrative Outdoor Supply；多數 11:00–11:30 才開',links:[{t:'外人住宅地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
-    {cat:'food',time:'11:45',name:'午餐 ― 時は鍵なり（歐姆蛋包飯）',note:'港川外人住宅内・限定午餐・極受歡迎・要早點排！售完即止',warn:'⚠ 11:00 開・售完為止！先去排隊再逛店',hours:'11:00–15:00（售完為止）',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/mH7BqnEAtpHwZ4ZD8'}]},
-    {zone:'宜野灣市'},
-    {cat:'shop',time:'14:00',name:'Parco City（宜野灣）',note:'敘敘苑商業午餐就在這，但已吃蛋包飯；可改逛 Parco 内日系服飾品牌，或在美食街吃輕食',hours:'10:00–22:00',links:[{t:'官網',u:'https://www.parco.co.jp/okinawa/'},{t:'Google 地圖',u:'https://maps.app.goo.gl/Fx9TjNww8LoTJzXt9'}]},
-    {cat:'cafe',time:'15:30',name:'Yamada Coffee → Common 烘焙屋',note:'宜野灣・手沖咖啡權威 Yamada Coffee，接著去 Common 烘焙屋買職人麵包；兩間相鄰逛完剛好',links:[{t:'Yamada Coffee 地圖',u:'https://maps.app.goo.gl/n9sDN8YD7zBs6uBt5'}]},
-    {cat:'shop',time:'16:30',name:'Prime Narrative Outdoor Supply（宜野灣）',note:'戶外風格選物，這區逛完最後一站',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
-    {zone:'北谷・中城（租車最後大採買）'},
-    {cat:'shop',time:'17:30',name:'D&Department 沖繩 by Plaza 3（沖繩市）',note:'注意：D&D 在沖繩市 Plaza House，不在 Aeon Mall 旁！從宜野灣開車約 20–25 分。若時間不夠可跳過',hours:'10:30–18:00・週二 16:00 關',links:[{t:'官方網站',u:'https://www.d-department.com/ext/shop/okinawa.html'},{t:'Google 地圖',u:'https://maps.app.goo.gl/jBqNw9zCa9UwFaXL9'}]},
-    {cat:'shop',time:'19:00',name:'AEON Mall Okinawa Rycom（中城）',note:'最後自駕採買大站；那霸以北最大購物商場，日系服飾・藥妝・食品一次搞定',hours:'10:00–22:00',links:[{t:'官網',u:'https://okinawarycom-aeonmall.com'},{t:'Google 地圖',u:'https://maps.app.goo.gl/sXpHzFDJDBvhEbWR9'}]},
-    {cat:'hotel',time:'21:00',name:'還車 → 返回那霸飯店',note:'租車最後一天，確認還車時間與地點，搭接駁回那霸市區'},
-  ]},
-  {label:'Day 4・6/19',tag:'無車・座間味島',items:[
-    {zone:'那霸 → 座間味島'},
-    {cat:'ferry',time:'08:00',name:'前往泊港（とまりん）',note:'搭計程車或單軌至美栄橋站步行 15 分；先到とまりん取已預訂票券，排隊取票需時間',warn:'⚠ 端午連假絕對要提前訂！網路最早 55 天前開放',links:[{t:'官方訂票',u:'https://yoyaku.vill.zamami.okinawa.jp'},{t:'泊港地圖',u:'https://maps.app.goo.gl/AU4NVmw1WifstcGKA'}]},
-    {cat:'ferry',time:'09:00',name:'クイーンざまみ 高速船出發',note:'泊港北岸出發・約 50 分抵達座間味・片道 ¥3,200・自備酔い止め（暈船藥）',links:[{t:'座間味時刻表',u:'https://www.vill.zamami.okinawa.jp/ship/'}]},
-    {zone:'座間味島'},
-    {cat:'spot',time:'09:50',name:'座間味島 自由行',note:'古座間味海灘浮潛（全球百大美海灘）・阿真海灘・島內租腳踏車或電動車 ¥1,500~/半日・午餐在島上食堂（現金為主）',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/W2nMhj4VcJ3EkjTM6'}]},
-    {cat:'ferry',time:'16:20',name:'クイーンざまみ 回程',note:'16:10 前務必到乘船處（北岸，與とまりん距離步行 10 分）・17:10 抵泊港'},
-    {zone:'那霸：牧志・國際通'},
-    {cat:'food',time:'18:00',name:'晚餐 ― Eibun 沖繩麵（本店）',note:'回到那霸的第一餐！創意吃法多，連假要衝衝看',hours:'11:00–16:00 / 17:30–20:00',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/cY1UuQ6Tur7ggHaS9'}]},
-    {cat:'shop',time:'20:00',name:'國際通散策 ― DonDonDonki',note:'國際通夜間購物・Donki 深夜還開・最後補買藥妝零食',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/DT4sQrXnNVXh6ynj7'}]},
-  ]},
-  {label:'Day 5・6/20',tag:'無車・回程',items:[
-    {zone:'那霸：波上宮・首里'},
-    {cat:'spot',time:'09:00',name:'波上宮',note:'那霸西側海邊的琉球八社之首・免費參拜・黃昏景色美但早上人少更好',hours:'自由參拜',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/o2aDdXB9TwWMnP1p9'}]},
-    {cat:'spot',time:'10:30',name:'達摩神社・西來院（首里）',note:'首里駅徒步 5 分・滿坑達摩，氣氛清靜；祈求旅程計畫順遂！',warn:'18:00 關門，務必在白天前往',hours:'07:00–18:00・免費',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/jx3wgKi5S1DLECQR7'}]},
-    {zone:'那霸：壺屋・牧志商圈'},
-    {cat:'food',time:'11:30',name:'午餐 ― 福助玉子燒 或 Pork Tamago 飯糰',note:'壺屋通り附近・那霸名物・早午餐輕食剛好',links:[{t:'福助地圖',u:'https://maps.app.goo.gl/ey87eaKDT2hxSYwY7'},{t:'Pork Tamago 地圖',u:'https://maps.app.goo.gl/REUqGCBimBdUWPq39'}]},
-    {cat:'cafe',time:'12:00',name:'Rokkan Coffee（壺屋附近・首里區域）',note:'沈穩氣氛的咖啡空間，壺屋逛完後完美中場休息',hours:'請確認官網',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/xvU9G3TzJRQ8mNkdA'}]},
-    {cat:'shop',time:'12:30',name:'壺屋やちむん通り 陶器選物',note:'yachi & moon・tituti okinawa・utsuuwa chartaro・Akoh Kloh・castelo；石板路散步約 1–2 小時',hours:'多數店家 10:00–18:00',links:[{t:'壺屋通り地圖',u:'https://maps.app.goo.gl/b6kRJgLoGymz8HLp7'}]},
-    {cat:'shop',time:'14:00',name:'山城用品',note:'就在壺屋・牧志商圈附近，順路必逛；米軍放出品與戶外雜貨，沖繩限定挖寶感',links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/itjTNvvHx4nkNseA8'}]},
-    {zone:'那霸空港'},
-    {cat:'fly',time:'17:30',name:'前往那霸空港',note:'搭單軌約 25 分・建議 17:30 前出發，留足夠時間安檢'},
-    {cat:'fly',time:'19:55',name:'華航起飛 → 桃園',note:'20:30 抵達・飛行約 35 分・平安回家！',links:[{t:'華航官網',u:'https://www.china-airlines.com'}]},
-  ]}
-];
-
+// ─── 資料 ───────────────────────────────────────────
 const CAT_COLOR={
   spot:{bg:'#DCFCE7',color:'#166534',bar:'#0F9E75'},
   food:{bg:'#FEF3C7',color:'#92400E',bar:'#F59E0B'},
@@ -170,8 +227,216 @@ const CAT_COLOR={
 };
 const CAT_LABEL={spot:'景點',food:'餐食',cafe:'咖啡',shop:'逛街',ferry:'船班',hotel:'住宿',fly:'航班'};
 
-let curDay=0,curMode='timeline';
+const DAYS=[
+  // ───────── DAY 1 ─────────
+  {label:'Day 1・6/16',items:[
+    {cat:'fly',time:'14:50',name:'樂桃 起飛 → 那覇空港',
+      note:'17:35 抵達・連假入境人多，預留 1 小時辦理租車接駁手續'},
+    {cat:'fly',time:'17:35',name:'取車',
+      note:'搭乘租車公司接駁車前往取車，建議連假提前確認接駁等候地點'},
+    {cat:'fly',time:'19:00',name:'北上前往名護',
+      note:'車程約 70–90 分鐘，沿途可見夕陽海景'},
+    {cat:'food',time:'20:30',name:'晚餐 ─ Hama 濱（名護店）',
+      note:'名護在地人氣居酒屋，比那霸市區等候時間短很多',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/N7XWzjNdUkHFTrtz7'}]},
+    {cat:'hotel',time:'21:30',name:'入住 Best Western Okinawa Kouki Beach',
+      note:'北部海景飯店，明天早起衝水族館',
+      links:[{t:'官網',u:'https://www.bestwestern.com'}]},
+  ]},
 
+  // ───────── DAY 2 ─────────
+  {label:'Day 2・6/17',items:[
+    {zone:'北部：本部町'},
+    {cat:'spot',time:'08:30',name:'美麗海水族館 + 備瀬福木林道',
+      note:'08:30 一開門就進，黑潮之海大水槽・備瀬福木林道免費安靜，水族館出來直接走過去',
+      warn:'⚠ 端午連假需提前網路購票！',
+      hours:'08:30–18:30',
+      links:[{t:'官網購票',u:'https://churaumi.okinawa/ticket/'}]},
+    {cat:'cafe',time:'11:00',name:'Satchan Soba + Sea Living Cafe（甜甜圈）',
+      note:'水族館附近的在地名店；Sea Living Cafe 的甜甜圈是北部隱藏版甜點',
+      links:[{t:'Sea Living 地圖',u:'https://maps.app.goo.gl/vSeFeFv4x8VLwUBX8'}]},
+    {cat:'food',time:'12:00',name:'名護午餐（待決定）',
+      note:'可選：名護市内的山原そば或在地小食堂，輕鬆吃完準備南下'},
+    {zone:'南下途中：恩納村・讀谷村'},
+    {cat:'cafe',time:'14:30',name:'Ryukyu Beach Club → 讀谷村 Commons',
+      note:'恩納村海邊喝杯涼的，享受度假感；Commons 是讀谷知名複合式選物空間',
+      links:[{t:'Ryukyu Beach Club 地圖',u:'https://maps.app.goo.gl/vQhCJz5fqh1nxLVB8'}]},
+    {zone:'南下途中：豐見城'},
+    {cat:'shop',time:'17:00',name:'ASHIBINAA Outlet（豐見城）',
+      note:'水族館南下回那霸路上直接順路，開車最方便；逛約 1.5 小時',
+      hours:'10:00–20:00',
+      links:[{t:'官網',u:'https://www.ashibinaa.com'}]},
+    {zone:'那霸'},
+    {cat:'hotel',time:'19:30',name:'入住 Hotel Grand Consort Naha',
+      note:'Day 2–4 那霸市區基地',
+      links:[{t:'官網',u:'https://www.hotelgrandconsort.com'}]},
+    {cat:'food',time:'20:00',name:'晚餐（待決定）',
+      note:'Sandbox Burgers（20:00 前到）或附近居酒屋',
+      eitherOr:[
+        {name:'Sandbox Burgers',note:'美式漢堡，連假人多建議 20:00 前到',hours:'~22:00'},
+        {name:'附近居酒屋',note:'輕鬆小酌，入住後步行可到'},
+      ]},
+  ]},
+
+  // ───────── DAY 3 ─────────
+  {label:'Day 3・6/18',items:[
+    {zone:'那霸：波上宮（早上順路）'},
+    {cat:'spot',time:'08:00',name:'波上宮（選擇性）',
+      note:'那霸西側海邊琉球八社之首，30 分鐘內參拜完畢，早上人少；可選擇改移到 Day 5',
+      hours:'自由參拜',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/o2aDdXB9TwWMnP1p9'}]},
+    {zone:'浦添市：港川外人住宅'},
+    {cat:'cafe',time:'09:30',name:'SANSE coffee&wine',
+      note:'港川外人住宅區內・早上人少是最佳時機',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
+    {cat:'shop',time:'10:00',name:'港川外人住宅 逛店',
+      note:'gnoti（編織選物）・kozorasou（小空莊）・Narrative Outdoor Supply；多數 11:00 才開',
+      links:[{t:'外人住宅地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
+    {cat:'cafe',time:'10:30',name:'.uki（浦添・港川外人住宅區）',
+      note:'沖繩氣質咖啡空間，外人住宅區散步中途停一杯',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/SFbMAs8hQVKML7Bo9'}]},
+    {cat:'food',time:'11:00',name:'午餐 ─ 時ハ鍵ナリ（歐姆蛋包飯）',
+      note:'港川外人住宅内，限定午餐，極受歡迎，一開門就去排！',
+      warn:'⚠ 11:00 開門・售完為止，早點到排隊',
+      hours:'11:00–15:00（售完為止）',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/mH7BqnEAtpHwZ4ZD8'}]},
+    {cat:'food',time:'12:30',name:'Vietnam Marley（選擇性）',
+      note:'港川外人住宅附近咖啡館，蛋包飯吃完若還想坐坐可繼續在這一帶',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/GYjXFeTYkj7C9bNA8'}]},
+    {zone:'宜野灣市'},
+    {cat:'shop',time:'13:30',name:'PARCO CITY + Jojoen 敘敘苑（宜野灣）',
+      note:'Parco 逛街；敘敘苑商業午餐已過，可在 Parco 美食街吃輕食或下午茶',
+      hours:'10:00–22:00',
+      links:[{t:'PARCO CITY 官網',u:'https://www.parco.co.jp/okinawa/'}]},
+    {cat:'cafe',time:'15:30',name:'Yamada Coffee → Common 烘焙屋',
+      note:'宜野灣手沖咖啡權威，Common 烘焙屋職人麵包；兩間相鄰，逛完剛好',
+      links:[{t:'Yamada Coffee 地圖',u:'https://maps.app.goo.gl/n9sDN8YD7zBs6uBt5'}]},
+    {zone:'那霸周邊：神社・還車'},
+    {cat:'spot',time:'16:30',name:'沖宮 + 護國神社（奧武山公園）',
+      note:'琉球八社之一・那霸空港旁，還車前最後一個景點，免費參拜',
+      hours:'自由參拜',
+      links:[{t:'沖宮地圖',u:'https://maps.app.goo.gl/o2aDdXB9TwWMnP1p9'}]},
+    {cat:'fly',time:'17:30',name:'機場周邊還車',
+      note:'確認租車公司接駁時間，還完車後搭接駁到那霸市區'},
+    {cat:'shop',time:'18:00',name:'ASHIBINAA Outlet（若時間夠）',
+      note:'還車後步行或計程車可到，剩 1–1.5 小時快速逛',
+      hours:'10:00–20:00',
+      links:[{t:'官網',u:'https://www.ashibinaa.com'}]},
+    {cat:'food',time:'20:30',name:'晚餐 ─ Lucky Maximum 居酒屋',
+      note:'熱門居酒屋，連假強烈建議提前訂位',
+      warn:'⚠ 建議提前電話訂位',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/pRSb4GW9K3qzwVNP9'}]},
+  ]},
+
+  // ───────── DAY 4 ─────────
+  {label:'Day 4・6/19',items:[
+    {zone:'那霸 → 座間味島'},
+    {cat:'ferry',time:'08:00',name:'前往泊港（とまりん）',
+      note:'搭計程車或單軌至美栄橋站步行 15 分；先到とまりん取已預訂票券',
+      warn:'⚠ 端午連假絕對要提前訂！最早 55 天前官網開放',
+      transport:[
+        {route:'計程車',from:'Grand Consort',time:'約 10 分',price:'¥800–1,000'},
+        {route:'單軌+步行',from:'美栄橋站',time:'步行 15 分',price:'¥260'},
+      ],
+      links:[{t:'官方訂票',u:'https://yoyaku.vill.zamami.okinawa.jp'},{t:'泊港地圖',u:'https://maps.app.goo.gl/AU4NVmw1WifstcGKA'}]},
+    {cat:'ferry',time:'09:00',name:'クイーンざまみ 高速船 出發',
+      note:'泊港北岸出發・約 50 分抵達座間味',
+      transport:[
+        {route:'クイーンざまみ',from:'泊港北岸 09:00',time:'50 分',price:'¥3,200/人'},
+      ],
+      links:[{t:'座間味時刻表',u:'https://www.vill.zamami.okinawa.jp/ship/'}]},
+    {zone:'座間味島'},
+    {cat:'spot',time:'09:50',name:'座間味島 自由行',
+      note:'古座間味海灘・阿真海灘浮潛・尋找海龜・島內租腳踏車或電動車；午餐在島上食堂（現金為主）',
+      eitherOr:[
+        {name:'古座間味海灘',note:'全球百大美海灘，浮潛絕景'},
+        {name:'阿真（Ama）海灘',note:'較平靜、適合帶野餐墊悠閒玩'},
+      ],
+      links:[{t:'島内地圖',u:'https://maps.app.goo.gl/W2nMhj4VcJ3EkjTM6'}]},
+    {cat:'ferry',time:'17:20',name:'クイーンざまみ 回程',
+      note:'17:10 前務必到乘船處（北岸，與とまりん步行 10 分）',
+      transport:[
+        {route:'クイーンざまみ',from:'座間味 17:20',time:'50 分',price:'¥3,200/人（含去程）'},
+      ]},
+    {zone:'那霸：牧志・國際通'},
+    {cat:'food',time:'18:00',name:'晚餐 ─ Eibun 沖繩麵（本店）',
+      note:'回那霸第一餐！創意吃法多，連假要衝衝看',
+      hours:'11:00–16:00 / 17:30–20:00',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/cY1UuQ6Tur7ggHaS9'}]},
+    {cat:'shop',time:'20:00',name:'Donki Donki 或 大國藥妝',
+      note:'國際通夜間採買・Donki 深夜開・最後補藥妝零食',
+      eitherOr:[
+        {name:'DonDonDonki 國際通店',note:'深夜還開，零食伴手禮一次搞定'},
+        {name:'大國藥妝',note:'藥妝性價比高，連假人潮稍少'},
+      ],
+      links:[{t:'Donki 地圖',u:'https://maps.app.goo.gl/DT4sQrXnNVXh6ynj7'}]},
+  ]},
+
+  // ───────── DAY 5 ─────────
+  {label:'Day 5・6/20',items:[
+    {zone:'那霸：首里・波上宮'},
+    {cat:'spot',time:'09:00',name:'達摩神社（西來院）+ Yamashita Coffee',
+      note:'首里駅步行 5 分・滿坑達摩祈福，氣氛清靜；Yamashita Coffee 就在附近，早上一杯',
+      warn:'18:00 關門，務必在白天前往',
+      hours:'07:00–18:00・免費',
+      links:[{t:'達摩神社地圖',u:'https://maps.app.goo.gl/jx3wgKi5S1DLECQR7'}]},
+    {cat:'spot',time:'10:00',name:'波上宮',
+      note:'琉球八社之首，懸崖上的神社是必拍點，俯瞰波之上海灘',
+      hours:'自由參拜・免費',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/o2aDdXB9TwWMnP1p9'}]},
+    {zone:'那霸：壺屋・牧志商圈'},
+    {cat:'food',time:'11:00',name:'午餐 ─ 牧志市場 + 福助玉子燒 / Pork Tamago',
+      note:'牧志公設市場二樓食堂・或附近的福助玉子燒・Pork Tamago 飯糰',
+      eitherOr:[
+        {name:'福助玉子燒',note:'那霸名物，早上人少最好吃',hours:'早上–午後'},
+        {name:'Pork Tamago 飯糰（牧志店）',note:'沖繩必吃飯糰，輕食剛好'},
+      ],
+      links:[{t:'福助地圖',u:'https://maps.app.goo.gl/ey87eaKDT2hxSYwY7'},{t:'Pork Tamago 地圖',u:'https://maps.app.goo.gl/REUqGCBimBdUWPq39'}]},
+    {cat:'cafe',time:'12:00',name:'Rokkan Coffee（壺屋附近）',
+      note:'沈穩氣氛，壺屋逛完後完美中場休息',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/xvU9G3TzJRQ8mNkdA'}]},
+    {cat:'shop',time:'12:30',name:'壺屋やちむん通り 陶器選物',
+      note:'yachi & moon・tituti okinawa・utsuuwa chartaro・Akoh Kloh・castelo；石板路散步 1–2 小時',
+      hours:'多數 10:00–18:00',
+      links:[{t:'壺屋通り地圖',u:'https://maps.app.goo.gl/b6kRJgLoGymz8HLp7'}]},
+    {cat:'shop',time:'14:00',name:'山城用品',
+      note:'壺屋・牧志商圈附近，米軍放出品與戶外雜貨，沖繩限定挖寶感',
+      links:[{t:'Google 地圖',u:'https://maps.app.goo.gl/itjTNvvHx4nkNseA8'}]},
+    {cat:'shop',time:'14:30',name:'市區追加（待決定）',
+      note:'若還有時間，可選以下幾間順路逛',
+      eitherOr:[
+        {name:'AKOH KLOH',note:'壺屋周邊選物'},
+        {name:'Stussy Okinawa',note:'國際通周邊'},
+        {name:'Okinawa Handmade Silver Ryu',note:'沖繩手工銀飾'},
+        {name:'Ryukyu Milk Mochi',note:'必買麻糬甜點'},
+      ]},
+    {zone:'那霸空港'},
+    {cat:'fly',time:'17:00',name:'前往那霸空港',
+      note:'搭單軌約 25 分・建議 17:00 前出發，留足時間安檢'},
+    {cat:'fly',time:'19:55',name:'華航 起飛 → 桃園',
+      note:'20:30 抵達，飛行約 35 分，平安回家！',
+      links:[{t:'華航官網',u:'https://www.china-airlines.com'}]},
+  ]},
+];
+
+// ─── 狀態 ───────────────────────────────────────────
+let curDay=0, curMode='timeline';
+
+// ─── 收合邏輯 ────────────────────────────────────────
+function toggleInfo(){
+  const btn=document.getElementById('info-btn');
+  const body=document.getElementById('info-body');
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
+}
+function toggleChecklist(){
+  const btn=document.getElementById('check-btn');
+  const body=document.getElementById('check-body');
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ─── 模式切換 ────────────────────────────────────────
 function setMode(m){
   curMode=m;
   document.getElementById('btn-tl').classList.toggle('active',m==='timeline');
@@ -180,24 +445,63 @@ function setMode(m){
   document.getElementById('card-view').classList.toggle('active',m==='cards');
   renderDay(curDay);
 }
+
+// ─── Day 切換（自動捲回頂部）────────────────────────
 function setDay(i){
   curDay=i;
   document.querySelectorAll('.day-pill').forEach((p,j)=>p.classList.toggle('active',j===i));
   renderDay(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── 渲染 ─────────────────────────────────────────────
+function linksHtml(links,cls){
+  if(!links||!links.length)return '';
+  return `<div class="${cls}">` + links.map(l=>`<a class="${cls.replace('s','').slice(0,-1)}" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('') + '</div>';
+}
+function tlLinksHtml(links){
+  if(!links||!links.length)return '';
+  return '<div class="tl-links">'+links.map(l=>`<a class="tl-link" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('')+'</div>';
+}
+function cardLinksHtml(links){
+  if(!links||!links.length)return '';
+  return '<div class="card-links">'+links.map(l=>`<a class="card-link" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('')+'</div>';
+}
+
+function eitherOrHtml(opts){
+  if(!opts||!opts.length)return '';
+  return `<div class="either-or">
+    <div class="either-or-label">二選一</div>
+    ${opts.map(o=>`<div class="either-option">
+      <div class="either-option-name">${o.name}${o.hours?` <span style="font-size:11px;color:#aaa;font-weight:400">${o.hours}</span>`:''}</div>
+      ${o.note?`<div class="either-option-note">${o.note}</div>`:''}
+    </div>`).join('')}
+  </div>`;
+}
+
+function transportHtml(rows){
+  if(!rows||!rows.length)return '';
+  return `<table class="transport-table">
+    <tr><th>路線</th><th>出發</th><th>時間</th><th>票價</th></tr>
+    ${rows.map(r=>`<tr><td>${r.route}</td><td>${r.from}</td><td>${r.time}</td><td>${r.price}</td></tr>`).join('')}
+  </table>`;
 }
 
 function renderDay(i){
   const day=DAYS[i];
-  if(curMode==='timeline'){
-    let warns=day.items.filter(it=>it.warn&&it.name).map(it=>`<div class="alert-box">📌 ${it.name}：${it.warn}</div>`).join('');
 
-    // group items by zone
-    let groups=[];
-    let cur=null;
+  if(curMode==='timeline'){
+    // 分組
+    let groups=[], cur=null;
     day.items.forEach(it=>{
       if(it.zone!==undefined){cur={zone:it.zone,items:[]};groups.push(cur);}
       else{if(!cur){cur={zone:null,items:[]};groups.push(cur);}cur.items.push(it);}
     });
+
+    // 全天 warn 提示
+    let warns=day.items.filter(it=>it.warn&&it.name)
+      .map(it=>`<div style="background:#FEF3C7;border-radius:12px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:#92400E;line-height:1.6;border:1px solid #FDE68A">📌 <b>${it.name}</b>：${it.warn}</div>`)
+      .join('');
 
     let num=0;
     let html=groups.map(g=>{
@@ -205,7 +509,6 @@ function renderDay(i){
       let itemsHtml=g.items.map(it=>{
         num++;
         const c=CAT_COLOR[it.cat]||CAT_COLOR.spot;
-        let linksHtml=it.links?'<div class="tl-links">'+it.links.map(l=>`<a class="tl-link" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('')+'</div>':'';
         return `<div class="tl-item">
           <div class="tl-badge" style="background:${c.bg};color:${c.color}">${num}</div>
           <div class="tl-card">
@@ -213,8 +516,10 @@ function renderDay(i){
             <div class="tl-name">${it.name}</div>
             ${it.note?`<div class="tl-note">${it.note}</div>`:''}
             ${it.hours?`<span class="hours-tag">⏰ ${it.hours}</span>`:''}
-            ${it.warn?`<span class="warn-badge">${it.warn}</span>`:''}
-            ${linksHtml}
+            ${transportHtml(it.transport)}
+            ${eitherOrHtml(it.eitherOr)}
+            ${it.warn?`<div class="warn-badge">⚠ ${it.warn}</div>`:''}
+            ${tlLinksHtml(it.links)}
           </div>
         </div>`;
       }).join('');
@@ -222,10 +527,10 @@ function renderDay(i){
     }).join('');
 
     document.getElementById('tl-view').innerHTML=warns+html;
+
   } else {
     let cards=day.items.filter(it=>!it.zone).map((it,idx)=>{
       const c=CAT_COLOR[it.cat]||CAT_COLOR.spot;
-      let linksHtml=it.links?'<div class="card-links">'+it.links.map(l=>`<a class="card-link" href="${l.u}" target="_blank">${l.t} ↗</a>`).join('')+'</div>':'';
       return `<div class="place-card">
         <div class="card-bar" style="background:${c.bar}"></div>
         <div class="card-header">
@@ -238,8 +543,10 @@ function renderDay(i){
         <div class="card-note">
           ${it.note||''}
           ${it.hours?`<br><span class="hours-tag" style="margin-top:5px">⏰ ${it.hours}</span>`:''}
-          ${it.warn?`<br><span class="warn-badge" style="margin-top:5px">${it.warn}</span>`:''}
-          ${linksHtml}
+          ${transportHtml(it.transport)}
+          ${eitherOrHtml(it.eitherOr)}
+          ${it.warn?`<div class="warn-badge">⚠ ${it.warn}</div>`:''}
+          ${cardLinksHtml(it.links)}
         </div>
       </div>`;
     }).join('');
